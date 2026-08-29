@@ -1,50 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pixel Vault - Wallpaper App</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wallpaper Haven</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="navbar">
-        <div class="logo">PixelVault</div>
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search wallpapers (e.g., Nature, Dark)...">
-            <button id="searchBtn">Search</button>
-        </div>
-        <button id="favTabBtn" class="nav-btn">❤️ Favorites (<span id="favCount">0</span>)</button>
-    </header>
 
-    <div class="categories" id="categories">
-        <button class="chip active" data-query="popular">Popular</button>
-        <button class="chip" data-query="nature">Nature</button>
-        <button class="chip" data-query="minimal">Minimal</button>
-        <button class="chip" data-query="cyberpunk">Cyberpunk</button>
-        <button class="chip" data-query="architecture">Architecture</button>
-        <button class="chip" data-query="space">Space</button>
+  <header>
+    <h1>HD Wallpaper Hub</h1>
+    <p>Search and download high-resolution wallpapers for mobile & desktop</p>
+    
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search wallpapers (e.g. Nature, Cyberpunk)..." value="nature">
+      <button id="searchBtn">Search</button>
     </div>
+  </header>
 
-    <main class="gallery-container">
-        <div id="gallery" class="gallery-grid"></div>
-        <div id="loader" class="loader hidden">Loading...</div>
-    </main>
+  <main class="gallery" id="gallery"></main>
 
-    <div id="modal" class="modal hidden">
-        <div class="modal-content">
-            <span id="closeModal" class="close-btn">&times;</span>
-            <img id="modalImg" src="" alt="Wallpaper Preview">
-            <div class="modal-info">
-                <p id="modalAuthor">Photo by Unknown</p>
-                <div class="modal-actions">
-                    <button id="modalFavBtn" class="action-btn fav-btn">❤️ Save</button>
-                    <button id="modalDownloadBtn" class="action-btn download-btn">⬇️ Download</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
