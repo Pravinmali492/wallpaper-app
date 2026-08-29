@@ -13,7 +13,7 @@ searchBtn.addEventListener('click', () => {
 
 async function fetchWallpapers(query) {
   gallery.innerHTML = '<p>Loading wallpapers...</p>';
-  const url = `https://api.unsplash.com/search/photos?page=1&query=${query}&per_page=12&client_id=${OQrlPQ0EQYsFEuqD3fkDvtVBIyxf_TmuS4WJZ9z7gt0}`;
+  const url = `https://api.unsplash.com/search/photos?page=1&query=${query}&per_page=12&client_id=${apiKey}`;
   
   try {
     const response = await fetch(url);
