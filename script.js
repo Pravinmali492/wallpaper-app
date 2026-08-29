@@ -94,7 +94,10 @@ function openModal(item) {
 }
 
 // Close Modal Event
-closeModal.addEventListener('click', () => modal.classList.add('hidden'));
+closeModal.addEventListener('click', () =>{
+    modal.classList.add('hidden');
+    activeWallpaper=null;
+});
 
 // Handle Image Download via JavaScript Blob
 modalDownloadBtn.addEventListener('click', async () => {
@@ -112,7 +115,8 @@ modalDownloadBtn.addEventListener('click', async () => {
         document.body.removeChild(a);
         URL.revokeObjectURL(blobUrl);
     } catch (err) {
-        alert("Downloading image... (Right-click preview to save if direct download fails)");
+      console.error("Downloading image... (Right-click preview to save if direct download fails)");
+        window.open(activeWallpaper.downloadUrl,'_blank');
     }
 });
 
