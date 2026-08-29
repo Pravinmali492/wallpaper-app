@@ -1,5 +1,5 @@
 // Unsplash Demo API Key (Use demo access key or replace with your own)
-const ACCESS_KEY = 'YOUR_Pexels_API_KEY'; // Replace with key or fetch demo fallback
+const ACCESS_KEY = 'YOUR_UNSPLASH_ACCESS_KEY'; // Replace with key or fetch demo fallback
 const gallery = document.getElementById('gallery');
 const searchInput = document.getElementById('searchInput');
 const searchBtn = document.getElementById('searchBtn');
@@ -33,15 +33,15 @@ async function fetchWallpapers(query = 'popular') {
     gallery.innerHTML = '';
     
     // Fallback Mock Data if no API Key provided
-    if (ACCESS_KEY === 'YOUR_PEXELS_API_KEY') {
+    if (ACCESS_KEY === 'YOUR_UNSPLASH_ACCESS_KEY') {
         renderMockData(query);
         loader.classList.add('hidden');
         return;
     }
 
     try {
-        const response = await fetch(`https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=20`,{
-        headers:{Authorization:ACCESS_KEY}
+        const response = await fetch(`https://api.unsplash.com/search/photos?page=1&query=${encodeURIComponent(query)}`,{
+        headers:{Authorization:`Client-ID${ACCESS_KEY}`}
     });
         const data = await response.json();
         renderGallery(data.results.map(img => ({
