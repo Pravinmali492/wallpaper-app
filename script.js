@@ -103,7 +103,9 @@ closeModal.addEventListener('click', () =>{
 modalDownloadBtn.addEventListener('click', async () => {
     if (!activeWallpaper) return;
     try {
-        const response = await fetch(activeWallpaper.downloadUrl);
+        const response = await fetch(activeWallpaper.downloadUrl,{
+            mode:'cors'
+        });
         const blob = await response.blob();
         const blobUrl = URL.createObjectURL(blob);
         
@@ -116,7 +118,11 @@ modalDownloadBtn.addEventListener('click', async () => {
         URL.revokeObjectURL(blobUrl);
     } catch (err) {
       console.error("Downloading image... (Right-click preview to save if direct download fails)");
-        window.open(activeWallpaper.downloadUrl,'_blank');
+       const a=document.createElement('a');
+        a.hrefactiveWallpaper.downloadUrl;
+        a.target='_blank';
+        a.download=`wallpaper-${activeWallpaper.id}.jpg`;
+        a.click();
     }
 });
 
