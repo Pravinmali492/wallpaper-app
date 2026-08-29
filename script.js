@@ -1,92 +1,67 @@
-const ACCESS_KEY = "YOUR_UNSPLASH_ACCESS_KEY"; 
+const apiKey = 'YOUR_UNSPLASH_ACCESS_KEY'; 
+const gallery = document.getElementById('wallpaper-gallery');
+const searchInput = document.getElementById('search-input');
+const searchBtn = document.getElementById('search-btn');
 
-const gallery = document.getElementById("gallery");
-const searchInput = document.getElementById("searchInput");
-const searchBtn = document.getElementById("searchBtn");
+// Fetch initial wallpapers on load
+fetchWallpapers('wallpapers');
 
-// Fetch photos from Unsplash
+searchBtn.addEventListener('click', () => {
+  const query = searchInput.value.trim();
+  if (query) fetchWallpapers(query);
+});
+
 async function fetchWallpapers(query) {
-  gallery.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>Loading wallpapers...</p>";
-
-  const url = `https://api.unsplash.com/search/photos?page=1&per_page=20&query=${query}&client_id=${ACCESS_KEY}`;
-
+  gallery.innerHTML = '<p>Loading wallpapers...</p>';
+  const url = `https://api.unsplash.com/search/photos?page=1&query=${query}&per_page=12&client_id=${apiKey}`;
+  
   try {
     const response = await fetch(url);
     const data = await response.json();
-
-    if (data.results.length === 0) {
-      gallery.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>No wallpapers found.</p>";
-      return;
-    }
-
-    renderGallery(data.results);
+    displayWallpapers(data.results);
   } catch (error) {
-    console.error("Error fetching images:", error);
-    gallery.innerHTML = "<p style='grid-column: 1/-1; text-align: center;'>Failed to load wallpapers. Please check your API key.</p>";
+    gallery.innerHTML = '<p>Failed to load images. Check your API key.</p>';
   }
 }
 
-// Render cards dynamically
-function renderGallery(photos) {
-  gallery.innerHTML = "";
+function displayWallpapers(images) {
+  gallery.innerHTML = '';
+  if (images.length === 0) {
+    gallery.innerHTML = '<p>No wallpapers found.</p>';
+    return;
+  }
 
-  photos.forEach((photo) => {
-    const card = document.createElement("div");
-    card.classList.add("card");
-
-    // Use full/raw resolution URL for actual downloading
-    const downloadUrl = photo.urls.full;
-    const previewUrl = photo.urls.regular;
+  images.forEach(img => {
+    const card = document.createElement('div');
+    card.classList.add('card');
+    
+    // Using full-resolution image URL for high-quality downloads
+    const downloadUrl = img.urls.full;
 
     card.innerHTML = `
-      <img src="${previewUrl}" alt="${photo.alt_description || 'Wallpaper'}" loading="lazy">
-      <div class="card-info">
-        <span class="photographer">By ${photo.user.name}</span>
-        <button class="download-btn" onclick="downloadImage('${downloadUrl}', '${photo.id}')">
-          Download
-        </button>
-      </div>
+      <img src="${img.urls.small}" alt="${img.alt_description || 'Wallpaper'}">
+      <button class="download-btn" onclick="downloadImage('${downloadUrl}', 'wallpaper-${img.id}.jpg')">Download</button>
     `;
 
     gallery.appendChild(card);
   });
 }
 
-// Convert image to Blob for direct download without CORS redirect
-async function downloadImage(imageSrc, id) {
+// Function to handle blob downloading to avoid CORS issues
+async function downloadImage(imageSrc, name) {
   try {
     const response = await fetch(imageSrc);
     const blob = await response.blob();
     const blobUrl = URL.createObjectURL(blob);
-
-    const link = document.createElement("a");
+    
+    const link = document.createElement('a');
     link.href = blobUrl;
-    link.download = `wallpaper-${id}.jpg`;
+    link.download = name;
     document.body.appendChild(link);
     link.click();
-
-    // Cleanup memory
     document.body.removeChild(link);
     URL.revokeObjectURL(blobUrl);
   } catch (error) {
-    console.error("Download failed:", error);
-    // Fallback: Open image in new tab if direct fetch is blocked
-    window.open(imageSrc, "_blank");
+    console.error('Download failed:', error);
   }
 }
-
-// Event Listeners
-searchBtn.addEventListener("click", () => {
-  const query = searchInput.value.trim();
-  if (query) fetchWallpapers(query);
-});
-
-searchInput.addEventListener("keypress", (e) => {
-  if (e.key === "Enter") {
-    const query = searchInput.value.trim();
-    if (query) fetchWallpapers(query);
-  }
-});
-
-// Initial Load
-fetchWallpapers("nature");
