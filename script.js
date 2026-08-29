@@ -1,4 +1,4 @@
-const apiKey = 'YOUR_UNSPLASH_ACCESS_KEY'; 
+const apiKey = 'OQrlPQ0EQYsFEuqD3fkDvtVBIyxf_TmuS4WJZ9z7gt0'; 
 const gallery = document.getElementById('wallpaper-gallery');
 const searchInput = document.getElementById('search-input');
 const searchBtn = document.getElementById('search-btn');
